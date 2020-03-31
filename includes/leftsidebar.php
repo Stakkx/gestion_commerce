@@ -102,10 +102,10 @@
                     </a>
                     <ul class="nav-second-level" aria-expanded="false">
                         <li>
-                            <a href="#">Gestion clients</a>
+                            <a href="gestion_clients.php">Gestion clients</a>
                         </li>
                         <li>
-                            <a href="#">Ajouter Clients</a>
+                            <a href="ajouter_client.php">Ajouter Clients</a>
                         </li>
                     </ul>
                 </li>

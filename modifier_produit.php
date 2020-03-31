@@ -3,7 +3,7 @@ include('includes/database.php');
 $modif = false;
 
 
-if (isset($_POST['titre'])){
+if (isset($_POST['titre'], $_POST['categorie'], $_POST['fournisseur'], $_POST['prix_achat'], $_POST['prix_vente'], $_POST['quantite'], $_POST['quantite_minimal'], $_POST['poids'], $_POST['code_barre'], $_POST['image'])){
     $update = $pdo->prepare("UPDATE produit SET titre= ?, id_categorie=?, id_fournisseur=?, prix_achat=?, prix_vente=?, quantite=?, quantite_minimal=?, poids=?, code_barre=?, image=? WHERE id =".$_GET['id']);
     $update->execute(array($_POST['titre'], $_POST['categorie'], $_POST['fournisseur'], $_POST['prix_achat'], $_POST['prix_vente'], $_POST['quantite'], $_POST['quantite_minimal'], $_POST['poids'], $_POST['code_barre'], $_POST['image']));
     $modif = true;

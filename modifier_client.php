@@ -1,22 +1,20 @@
 <?php
 include('includes/database.php');
-$added = false;
-$notAdded = false;
+$modif = false;
 
-if (isset($_POST['titre'])){
 
-    $stmt = $pdo->prepare('SELECT COUNT(*) FROM produit WHERE titre = ?');
-    $stmt->execute(array($_POST['titre']));
-    if ($stmt->fetchColumn() != 0) {
-        $notAdded = true;
-    } else {
-
-        $req = $pdo->prepare('INSERT INTO produit(titre, id_categorie, id_fournisseur, prix_achat, prix_vente, quantite, quantite_minimal, poids, code_barre, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)');
-        $req->execute(array($_POST['titre'], $_POST['categorie'], $_POST['fournisseur'], $_POST['prix_achat'], $_POST['prix_vente'], $_POST['quantite'], $_POST['quantite_minimal'], $_POST['poids'], $_POST['code_barre'], $_POST['image'] ));
-        $added = true;
-        header( "refresh:2 ;url=gestion_produits.php" );
-    }
+if (isset($_POST['nom'], $_POST['prenom'], $_POST['email'], $_POST['adresse'], $_POST['code_postal'], $_POST['id_pays'], $_POST['solde'])){
+    $update = $pdo->prepare("UPDATE client SET nom=?, prenom=?, email=?, adresse=?, code_postal=?, id_pays=?, solde=? WHERE id =".$_GET['id']);
+    $update->execute(array($_POST['nom'], $_POST['prenom'], $_POST['email'], $_POST['adresse'], $_POST['code_postal'], $_POST['id_pays'], $_POST['solde']));
+    $modif = true;
+    header("Refresh");
 }
+
+if (isset($_GET['id'])){
+    $req = $pdo->query("SELECT * FROM client WHERE id=".$_GET['id']);
+    $client = $req->fetch();
+}
+
 
 ?>
 
@@ -61,7 +59,7 @@ include('includes/leftsidebar.php');
             <div class="row">
                     <div class="col-12">
                         <div class="page-title-box">
-                            <h4 class="page-title">Ajout d'un produit</h4>
+                            <h4 class="page-title">Modifier un client</h4>
                     </div>
                 </div>
             </div> 
@@ -69,58 +67,46 @@ include('includes/leftsidebar.php');
             <div class="row">
                 <div class="col-md-6 mx-auto">
                     <div class="card-box">
-                        <h4 class="header-title mb-3">Ajout d'un produit</h4>
+                        <h4 class="header-title mb-3">Modifier un client</h4>
 
-                        <form method="POST" action="ajouter_produit.php" name="ajout">
+                        <form method="POST" action="modifier_client.php?id=<?= $client['id'] ?>" name="modification">
                             <div class="form-group">
                                 
-                                <label for="titre">Titre</label>
-                                <input name="titre" class="form-control">
+                                <label for="nom">Nom</label>
+                                <input name="nom" class="form-control" value="<?= $client['nom']; ?>">
                                 
-                                <label for="titre">Catégorie</label>
-                                <input name="categorie" class="form-control">
+                                <label for="prenom">Prénom</label>
+                                <input name="prenom" class="form-control" value="<?= $client['prenom']; ?>">
                                 
-                                <label for="titre">Fournisseur</label>
-                                <input name="fournisseur" class="form-control">
+                                <label for="email">Email</label>
+                                <input name="email" class="form-control" value="<?= $client['email']; ?>">
                                 
-                                <label for="titre">Prix d'achat (€)</label>
-                                <input name="prix_achat" class="form-control">
+                                <label for="adresse">Adresse</label>
+                                <input name="adresse" class="form-control" value="<?= $client['adresse']; ?>">
                                 
-                                <label for="titre">Prix de vente (€)</label>
-                                <input name="prix_vente" class="form-control">
+                                <label for="code_postal">Prix de vente (€)</label>
+                                <input name="code_postal" class="form-control" value="<?= $client['code_postal']; ?>">
                                 
-                                <label for="titre">Quantité</label>
-                                <input name="quantite" class="form-control">
+                                <label for="pays">Pays</label>
+                                <input name="id_pays" class="form-control" value="<?= $client['id_pays']; ?>">
                                 
-                                <label for="titre">Quantité minimum à avoir en stock</label>
-                                <input name="quantite_minimal" class="form-control">
+                                <label for="solde">Solde</label>
+                                <input name="solde" class="form-control" value="<?= $client['solde']; ?>">
                                 
-                                <label for="titre">Poids (gramme)</label>
-                                <input  name="poids" class="form-control">
-                                
-                                <label for="titre">Code barre</label>
-                                <input  name="code_barre" class="form-control">
-                                
-                                <label for="titre">URL image</label>
-                                <input name="image" class="form-control">
                                 
                             </div>
-                            <button type="submit" name="submit" class="btn btn-primary">Ajouter</button>
+                            <button type="submit" name="submit" class="btn btn-primary">Modifier</button>
                         </form>
 
-                        <?php if ($added) { ?>
-
+                        <?php
+                        if ($modif) {
+                        ?>
                         <div class="alert alert-success" role="alert">
-                            Produit "<?= $_POST['titre']?>" ajoutée avec succès.
+                            Client "<?= $_POST['nom']?>" modifié avec succès.
                         </div>
-
-                        <?php } else if ($notAdded) {?>
-
-                        <div class="alert alert-danger" role="alert">
-                            Le produit "<?= $_POST['titre']?>" existe déjà.
-                        </div>
-
-                        <?php } ?>
+                        <?php
+                        }
+                        ?>      
 
                     </div> <!-- end card-box -->
                 </div>
