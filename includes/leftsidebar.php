@@ -41,12 +41,14 @@
     
                 <li>
                     <a href="#">
-                        <i class="fas fa-warehouse"></i> <span> Inventaire </span>
+                        <i class="fas fa-warehouse"></i> 
+                        <span> Inventaire </span>
                     </a>
                 </li>
 
                 <li>
                     <a href="javascript: void(0);">
+                        <i class="fas fa-list-ul"></i>
                         <span> Catégories </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -62,21 +64,23 @@
 
                 <li>
                     <a href="javascript: void(0);">
+                        <i class="fas fa-box-open"></i>
                         <span> Produits </span>
                         <span class="menu-arrow"></span>
                     </a>
                     <ul class="nav-second-level" aria-expanded="false">
                         <li>
-                            <a href="#">Gestion produits</a>
+                            <a href="gestion_produits.php">Gestion produits</a>
                         </li>
                         <li>
-                            <a href="#">Ajout produits</a>
+                            <a href="ajouter_produit.php">Ajout produits</a>
                         </li>
                     </ul>
                 </li>
 
                 <li>
                     <a href="javascript: void(0);">
+                        <i class="fas fa-truck"></i>
                         <span> Fournisseurs </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -92,6 +96,7 @@
 
                 <li>
                     <a href="javascript: void(0);">
+                        <i class="fas fa-user-edit"></i>
                         <span> Clients </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -107,6 +112,7 @@
 
                 <li>
                     <a href="javascript: void(0);">
+                        <i class="fas fa-file-contract"></i>
                         <span> Devis </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -122,6 +128,7 @@
 
                 <li>
                     <a href="javascript: void(0);">
+                        <i class="fas fa-file-invoice-dollar"></i>
                         <span> Factures </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -138,6 +145,7 @@
 
                 <li>
                     <a href="javascript: void(0);">
+                        <i class="fas fa-credit-card"></i>
                         <span> Paiements </span>
                         <span class="menu-arrow"></span>
                     </a>
@@ -155,19 +163,22 @@
 
                 <li>
                     <a href="#">
-                        <i class="fas fa-lock"></i> <span> Gestion Rôles </span>
+                        <i class="fas fa-lock">
+                        </i> <span> Gestion Rôles </span>
                     </a>
                 </li>
 
                 <li>
                     <a href="#">
-                        <i class="fas fa-user"></i> <span> Gestion Utilisateurs </span>
+                        <i class="fas fa-user">
+                        </i> <span> Gestion Utilisateurs </span>
                     </a>
                 </li>
 
                 <li>
                     <a href="#">
-                        <i class="fas fa-clipboard-list"></i> <span> Activités Utilisateurs </span>
+                        <i class="fas fa-clipboard-list"></i>
+                        <span> Activités Utilisateurs </span>
                     </a>
                 </li>
 

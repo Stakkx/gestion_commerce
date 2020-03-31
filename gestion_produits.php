@@ -70,6 +70,15 @@ include('includes/leftsidebar.php');
                             <tr>
                                 <th>#</th>
                                 <th>Titre</th>
+                                <th>Image</th>
+                                <th>Catégorie</th>
+                                <th>Fournisseur</th>
+                                <th>Prix d'achat</th>
+                                <th>Prix de vente</th>
+                                <th>Quantité</th>
+                                <th>Quantité minimum</th>
+                                <th>Poids</th>
+                                <th>Code barre</th>
                                 <th>Modifier</th>
                                 <th>Supprimer</th>
                             </tr>
@@ -80,14 +89,24 @@ include('includes/leftsidebar.php');
                                 $req = 'SELECT * FROM produit';
                                 $result = $pdo->query($req);
                                 $produits = $result->fetchAll();
+                                
                                 foreach($produits as $produit) :
                             ?>
                            
                             <tr>
                                 <td> <?= $produit['id'] ?> </td>
                                 <td> <?= $produit['titre'] ?> </td>
-                                <td> <a href="modifier_produit.php?id=<?= $cat['id'] ?>"><i class="fas fa-edit"></i> </a> </td>
-                                <td> <a onclick="return confirmation();" href="gestion_produits.php?suppr=<?= $cat['id'] ?>"> <i class="fas fa-trash-alt"></i> </a> </td>
+                                <td> <img src="<?= $produit['image'] ?>" alt="" width="50" height="50"> </td>
+                                <td> <?= $produit['id_categorie'] ?> </td>
+                                <td> <?= $produit['id_fournisseur'] ?> </td>
+                                <td> <?= $produit['prix_achat'] ?> </td>
+                                <td> <?= $produit['prix_vente'] ?> </td>
+                                <td> <?= $produit['quantite'] ?> </td>
+                                <td> <?= $produit['quantite_minimal'] ?> </td>
+                                <td> <?= $produit['poids'] ?> </td>
+                                <td> <?= $produit['code_barre'] ?> </td>
+                                <td> <a href="modifier_produit.php?id=<?= $produit['id'] ?>"><i class="fas fa-edit"></i> </a> </td>
+                                <td> <a onclick="return confirmation();" href="gestion_produits.php?suppr=<?= $produit['id'] ?>"> <i class="fas fa-trash-alt"></i> </a> </td>
                             </tr>                         
                             <?php endforeach; ?>
                         </tbody>

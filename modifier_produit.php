@@ -4,15 +4,15 @@ $modif = false;
 
 
 if (isset($_POST['titre'])){
-    $update = $pdo->prepare("UPDATE categorie SET titre= ? WHERE id =".$_GET['id']);
-    $update->execute(array($_POST['titre']));
+    $update = $pdo->prepare("UPDATE produit SET titre= ?, id_categorie=?, id_fournisseur=?, prix_achat=?, prix_vente=?, quantite=?, quantite_minimal=?, poids=?, code_barre=?, image=? WHERE id =".$_GET['id']);
+    $update->execute(array($_POST['titre'], $_POST['categorie'], $_POST['fournisseur'], $_POST['prix_achat'], $_POST['prix_vente'], $_POST['quantite'], $_POST['quantite_minimal'], $_POST['poids'], $_POST['code_barre'], $_POST['image']));
     $modif = true;
     header("Refresh");
 }
 
 if (isset($_GET['id'])){
-    $req = $pdo->query("SELECT * FROM categorie WHERE id=".$_GET['id']);
-    $categorie = $req->fetch();
+    $req = $pdo->query("SELECT * FROM produit WHERE id=".$_GET['id']);
+    $produit = $req->fetch();
 }
 
 
@@ -59,7 +59,7 @@ include('includes/leftsidebar.php');
             <div class="row">
                     <div class="col-12">
                         <div class="page-title-box">
-                            <h4 class="page-title">Modifier une catégorie</h4>
+                            <h4 class="page-title">Modifier un produit</h4>
                     </div>
                 </div>
             </div> 
@@ -67,12 +67,41 @@ include('includes/leftsidebar.php');
             <div class="row">
                 <div class="col-md-6 mx-auto">
                     <div class="card-box">
-                        <h4 class="header-title mb-3">Modifier une catégorie</h4>
+                        <h4 class="header-title mb-3">Modifier un produit</h4>
 
-                        <form method="POST" action="modifier_categorie.php?id=<?= $categorie['id'] ?>" name="modification">
+                        <form method="POST" action="modifier_produit.php?id=<?= $produit['id'] ?>" name="modification">
                             <div class="form-group">
+                                
                                 <label for="titre">Titre</label>
-                                <input type="titre" name="titre" class="form-control" id="titre" value="<?= $categorie['titre']; ?>">
+                                <input type="titre" name="titre" class="form-control" value="<?= $produit['titre']; ?>">
+                                
+                                <label for="titre">Catégorie</label>
+                                <input type="titre" name="categorie" class="form-control" value="<?= $produit['id_categorie']; ?>">
+                                
+                                <label for="titre">Fournisseur</label>
+                                <input type="titre" name="fournisseur" class="form-control" value="<?= $produit['id_fournisseur']; ?>">
+                                
+                                <label for="titre">Prix d'achat (€)</label>
+                                <input type="titre" name="prix_achat" class="form-control" value="<?= $produit['prix_achat']; ?>">
+                                
+                                <label for="titre">Prix de vente (€)</label>
+                                <input type="titre" name="prix_vente" class="form-control" value="<?= $produit['prix_vente']; ?>">
+                                
+                                <label for="titre">Quantité</label>
+                                <input type="titre" name="quantite" class="form-control" value="<?= $produit['quantite']; ?>">
+                                
+                                <label for="titre">Quantité minimum à avoir en stock</label>
+                                <input type="titre" name="quantite_minimal" class="form-control" value="<?= $produit['quantite_minimal']; ?>">
+                                
+                                <label for="titre">Poids (gramme)</label>
+                                <input type="titre" name="poids" class="form-control" value="<?= $produit['poids']; ?>">
+                                
+                                <label for="titre">Code barre</label>
+                                <input type="titre" name="code_barre" class="form-control" value="<?= $produit['code_barre']; ?>">
+                                
+                                <label for="titre">URL image</label>
+                                <input type="titre" name="image" class="form-control" value="<?= $produit['image']; ?>">
+                                
                             </div>
                             <button type="submit" name="submit" class="btn btn-primary">Modifier</button>
                         </form>
@@ -81,7 +110,7 @@ include('includes/leftsidebar.php');
                         if ($modif) {
                         ?>
                         <div class="alert alert-success" role="alert">
-                            Catégorie "<?= $_POST['titre']?>" modifiée avec succès.
+                            Produit "<?= $_POST['titre']?>" modifiée avec succès.
                         </div>
                         <?php
                         }
