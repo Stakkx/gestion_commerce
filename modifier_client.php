@@ -3,7 +3,7 @@ include('includes/database.php');
 $modif = false;
 
 
-if (isset($_POST['nom'], $_POST['prenom'], $_POST['email'], $_POST['adresse'], $_POST['code_postal'], $_POST['id_pays'], $_POST['solde'])){
+if (isset($_POST['submit'])){
     $update = $pdo->prepare("UPDATE client SET nom=?, prenom=?, email=?, adresse=?, code_postal=?, id_pays=?, solde=? WHERE id =".$_GET['id']);
     $update->execute(array($_POST['nom'], $_POST['prenom'], $_POST['email'], $_POST['adresse'], $_POST['code_postal'], $_POST['id_pays'], $_POST['solde']));
     $modif = true;
@@ -13,6 +13,10 @@ if (isset($_POST['nom'], $_POST['prenom'], $_POST['email'], $_POST['adresse'], $
 if (isset($_GET['id'])){
     $req = $pdo->query("SELECT * FROM client WHERE id=".$_GET['id']);
     $client = $req->fetch();
+    
+    $req2 = 'SELECT * FROM pays ORDER BY countryName ASC';
+    $result2 = $pdo->query($req2);
+    $paysListe = $result2->fetchAll();
 }
 
 
@@ -61,6 +65,7 @@ include('includes/leftsidebar.php');
                         <div class="page-title-box">
                             <h4 class="page-title">Modifier un client</h4>
                     </div>
+                    <p> <a href="gestion_clients.php"> <i class="fas fa-arrow-left"></i> Retour</a> </p>
                 </div>
             </div> 
 
@@ -84,11 +89,22 @@ include('includes/leftsidebar.php');
                                 <label for="adresse">Adresse</label>
                                 <input name="adresse" class="form-control" value="<?= $client['adresse']; ?>">
                                 
-                                <label for="code_postal">Prix de vente (€)</label>
+                                <label for="code_postal">Code postal</label>
                                 <input name="code_postal" class="form-control" value="<?= $client['code_postal']; ?>">
                                 
-                                <label for="pays">Pays</label>
-                                <input name="id_pays" class="form-control" value="<?= $client['id_pays']; ?>">
+                                <label for="country-select">Pays</label>
+
+                                <select class="form-control" name="id_pays">
+                                    
+                                    <?php 
+                                    foreach ($paysListe as $pays) :
+                                    ?>
+                                    
+                                    <option <?php if($client['id_pays']==$pays['id']) echo "selected" ?>  value="<?= $pays['id'] ?>"> <?= $pays['countryName'] ?> </option>
+                                    
+                                    <?php endforeach; ?>
+
+                                </select>
                                 
                                 <label for="solde">Solde</label>
                                 <input name="solde" class="form-control" value="<?= $client['solde']; ?>">

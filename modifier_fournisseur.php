@@ -4,19 +4,19 @@ $modif = false;
 
 
 if (isset($_POST['submit'])){
-    $update = $pdo->prepare("UPDATE produit SET titre= ?, id_categorie=?, prix_achat=?, prix_vente=?, quantite=?, quantite_minimal=?, poids=?, code_barre=?, image=? WHERE id =".$_GET['id']);
-    $update->execute(array($_POST['titre'], $_POST['categorie'], $_POST['prix_achat'], $_POST['prix_vente'], $_POST['quantite'], $_POST['quantite_minimal'], $_POST['poids'], $_POST['code_barre'], $_POST['image']));
+    $update = $pdo->prepare("UPDATE fournisseur SET nom=?, adresse=?, code_postal=?, id_pays=? WHERE id =".$_GET['id']);
+    $update->execute(array($_POST['nom'], $_POST['adresse'], $_POST['code_postal'], $_POST['id_pays']));
     $modif = true;
     header("Refresh");
 }
 
 if (isset($_GET['id'])){
-    $req = $pdo->query("SELECT produit.*,categorie.titre as titrecat FROM produit,categorie WHERE produit.id_categorie=categorie.id AND produit.id=".$_GET['id']);
-    $produit = $req->fetch();
+    $req = $pdo->query("SELECT * FROM fournisseur WHERE id=".$_GET['id']);
+    $fournisseur = $req->fetch();
     
-    $req2 = 'SELECT * FROM categorie ORDER BY titre ASC';
+    $req2 = 'SELECT * FROM pays ORDER BY countryName ASC';
     $result2 = $pdo->query($req2);
-    $allCategories = $result2->fetchAll();
+    $paysListe = $result2->fetchAll();
 }
 
 
@@ -63,9 +63,9 @@ include('includes/leftsidebar.php');
             <div class="row">
                     <div class="col-12">
                         <div class="page-title-box">
-                            <h4 class="page-title">Modifier un produit</h4>
+                            <h4 class="page-title">Modifier un fournisseur</h4>
                     </div>
-                    <p> <a href="gestion_produits.php"> <i class="fas fa-arrow-left"></i> Retour</a> </p>
+                    <p> <a href="gestion_fournisseurs.php"> <i class="fas fa-arrow-left"></i> Retour</a> </p>
                 </div>
             </div> 
 
@@ -73,47 +73,33 @@ include('includes/leftsidebar.php');
                 <div class="col-md-6 mx-auto">
                     <div class="card-box">
                         <h4 class="header-title mb-3">Formulaire de modification</h4>
-                        
-                        <form method="POST" action="modifier_produit.php?id=<?= $produit['id'] ?>" name="modification">
+
+                        <form method="POST" action="modifier_fournisseur.php?id=<?= $fournisseur['id'] ?>" name="modification">
                             <div class="form-group">
                                 
-                                <label for="titre">Titre</label>
-                                <input type="titre" name="titre" class="form-control" value="<?= $produit['titre']; ?>">
+                                <label for="nom">Nom</label>
+                                <input name="nom" class="form-control" value="<?= $fournisseur['nom']; ?>">
                                 
-                                <label for="pet-select">Catégorie</label>
+                                <label for="adresse">Adresse</label>
+                                <input name="adresse" class="form-control" value="<?= $fournisseur['adresse']; ?>">
+                                
+                                <label for="code_postal">Code postal</label>
+                                <input name="code_postal" class="form-control" value="<?= $fournisseur['code_postal']; ?>">
+                                
+                                <label for="country-select">Pays</label>
 
-                                <select class="form-control" name="categorie" id="id_categorie">
+                                <select class="form-control" name="id_pays">
                                     
                                     <?php 
-                                    foreach ($allCategories as $categorie) :
+                                    foreach ($paysListe as $pays) :
                                     ?>
                                     
-                                    <option <?php if($produit['id_categorie']==$categorie['id']) echo "selected" ?>  value="<?= $categorie['id'] ?>"> <?= $categorie['titre'] ?> </option>
+                                    <option <?php if($fournisseur['id_pays']==$pays['id']) echo "selected" ?>  value="<?= $pays['id'] ?>"> <?= $pays['countryName'] ?> </option>
                                     
                                     <?php endforeach; ?>
 
                                 </select>
                                 
-                                <label for="titre">Prix d'achat (€)</label>
-                                <input type="titre" name="prix_achat" class="form-control" value="<?= $produit['prix_achat']; ?>">
-                                
-                                <label for="titre">Prix de vente (€)</label>
-                                <input type="titre" name="prix_vente" class="form-control" value="<?= $produit['prix_vente']; ?>">
-                                
-                                <label for="titre">Quantité</label>
-                                <input type="titre" name="quantite" class="form-control" value="<?= $produit['quantite']; ?>">
-                                
-                                <label for="titre">Quantité minimum à avoir en stock</label>
-                                <input type="titre" name="quantite_minimal" class="form-control" value="<?= $produit['quantite_minimal']; ?>">
-                                
-                                <label for="titre">Poids (gramme)</label>
-                                <input type="titre" name="poids" class="form-control" value="<?= $produit['poids']; ?>">
-                                
-                                <label for="titre">Code barre</label>
-                                <input type="titre" name="code_barre" class="form-control" value="<?= $produit['code_barre']; ?>">
-                                
-                                <label for="titre">URL image</label>
-                                <input type="titre" name="image" class="form-control" value="<?= $produit['image']; ?>">
                                 
                             </div>
                             <button type="submit" name="submit" class="btn btn-primary">Modifier</button>
@@ -123,7 +109,7 @@ include('includes/leftsidebar.php');
                         if ($modif) {
                         ?>
                         <div class="alert alert-success" role="alert">
-                            Produit "<?= $_POST['titre']?>" modifié avec succès.
+                            Fournisseur "<?= $_POST['nom']?>" modifié avec succès.
                         </div>
                         <?php
                         }

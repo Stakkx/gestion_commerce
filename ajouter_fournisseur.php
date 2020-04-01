@@ -3,22 +3,17 @@ include('includes/database.php');
 $added = false;
 $notAdded = false;
 
-$req2 = 'SELECT * FROM categorie ORDER BY titre ASC';
-$result2 = $pdo->query($req2);
-$allCategories = $result2->fetchAll();
-
 if (isset($_POST['submit'])){
 
-    $stmt = $pdo->prepare('SELECT COUNT(*) FROM produit WHERE titre = ?');
-    $stmt->execute(array($_POST['titre']));
+    $stmt = $pdo->prepare('SELECT COUNT(*) FROM fournisseur WHERE nom = ?');
+    $stmt->execute(array($_POST['nom']));
     if ($stmt->fetchColumn() != 0) {
         $notAdded = true;
     } else {
-
-        $req = $pdo->prepare('INSERT INTO produit(titre, id_categorie, prix_achat, prix_vente, quantite, quantite_minimal, poids, code_barre, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
-        $req->execute(array($_POST['titre'], $_POST['categorie'], $_POST['prix_achat'], $_POST['prix_vente'], $_POST['quantite'], $_POST['quantite_minimal'], $_POST['poids'], $_POST['code_barre'], $_POST['image'] ));
+        $req = $pdo->prepare('INSERT INTO fournisseur(nom, adresse, code_postal, id_pays) VALUES (?, ?, ?, ?)');
+        $req->execute(array($_POST['nom'], $_POST['adresse'], $_POST['code_postal'], $_POST['id_pays']));
         $added = true;
-        header( "refresh:2 ;url=gestion_produits.php" );
+        header( "refresh:2 ;url=gestion_fournisseurs.php" );
     }
 }
 
@@ -65,57 +60,45 @@ include('includes/leftsidebar.php');
             <div class="row">
                     <div class="col-12">
                         <div class="page-title-box">
-                            <h4 class="page-title">Ajout d'un produit</h4>
+                            <h4 class="page-title">Ajout d'un fournisseur</h4>
                     </div>
-                    <p> <a href="gestion_produits.php"> <i class="fas fa-arrow-left"></i> Retour</a> </p>
+                    <p> <a href="gestion_fournisseurs.php"> <i class="fas fa-arrow-left"></i> Retour</a> </p>
                 </div>
             </div> 
 
             <div class="row">
                 <div class="col-md-6 mx-auto">
                     <div class="card-box">
-                        <h4 class="header-title mb-3">Ajout d'un produit</h4>
+                        <h4 class="header-title mb-3">Ajout d'un fournisseur</h4>
 
-                        <form method="POST" action="ajouter_produit.php" name="ajout">
+                        <form method="POST" action="ajouter_fournisseur.php" name="ajout">
                             <div class="form-group">
+                                <label for="nom">Nom</label>
+                                <input name="nom" class="form-control">
                                 
-                                <label for="titre">Titre</label>
-                                <input name="titre" class="form-control">
+                                <label for="adresse">Adresse</label>
+                                <input name="adresse" class="form-control">
                                 
-                               <label for="pet-select">Choisir une catégorie:</label>
+                                <label for="code_postal">Code Postal</label>
+                                <input name="code_postal" class="form-control">
+                                
+                                <label for="country-select">Pays</label>
 
-                                <select class="form-control" name="categorie">
+                                <select class="form-control" name="id_pays">
                                     
                                     <?php 
-                                    foreach ($allCategories as $categorie) :
+                                    $req2 = 'SELECT * FROM pays ORDER BY countryName ASC';
+                                    $result2 = $pdo->query($req2);
+                                    $paysListe = $result2->fetchAll();
+                                    
+                                    foreach ($paysListe as $pays) :
                                     ?>
                                     
-                                    <option value="<?= $categorie['id'] ?>"> <?= $categorie['titre'] ?> </option>
+                                    <option value="<?= $pays['id'] ?>"> <?= $pays['countryName'] ?> </option>
                                     
                                     <?php endforeach; ?>
 
                                 </select>
-                                
-                                <label for="titre">Prix d'achat (€)</label>
-                                <input name="prix_achat" class="form-control">
-                                
-                                <label for="titre">Prix de vente (€)</label>
-                                <input name="prix_vente" class="form-control">
-                                
-                                <label for="titre">Quantité</label>
-                                <input name="quantite" class="form-control">
-                                
-                                <label for="titre">Quantité minimum à avoir en stock</label>
-                                <input name="quantite_minimal" class="form-control">
-                                
-                                <label for="titre">Poids (gramme)</label>
-                                <input  name="poids" class="form-control">
-                                
-                                <label for="titre">Code barre</label>
-                                <input  name="code_barre" class="form-control">
-                                
-                                <label for="titre">URL image</label>
-                                <input name="image" class="form-control">
                                 
                             </div>
                             <button type="submit" name="submit" class="btn btn-primary">Ajouter</button>
@@ -124,13 +107,13 @@ include('includes/leftsidebar.php');
                         <?php if ($added) { ?>
 
                         <div class="alert alert-success" role="alert">
-                            Produit "<?= $_POST['titre']?>" ajoutée avec succès.
+                            Fournisseur "<?= $_POST['nom']?>" ajouté avec succès.
                         </div>
 
                         <?php } else if ($notAdded) {?>
 
                         <div class="alert alert-danger" role="alert">
-                            Le produit "<?= $_POST['titre']?>" existe déjà.
+                            Le fournisseur "<?= $_POST['nom']?>" existe déjà.
                         </div>
 
                         <?php } ?>

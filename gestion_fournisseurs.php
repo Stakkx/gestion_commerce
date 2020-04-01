@@ -3,8 +3,8 @@ include('includes/database.php');
 $deleted = false;
 
 if (isset($_GET['suppr'])){
-    $req = $pdo->exec("DELETE FROM client WHERE id =".$_GET['suppr']);
-    header('gestion_clients.php');
+    $req = $pdo->exec("DELETE FROM fournisseur WHERE id =".$_GET['suppr']);
+    header('gestion_fournisseurs.php');
     $deleted = true;
 }
 
@@ -50,14 +50,14 @@ include('includes/leftsidebar.php');
         <div class="row">
                 <div class="col-12">
                     <div class="page-title-box">
-                        <h4 class="page-title">Gestion des clients</h4>
+                        <h4 class="page-title">Gestion des fournisseur</h4>
                 </div>
              </div>
         </div> 
 
         <?php if($deleted) {?>
             <div id="message_suppression" class="alert alert-success" role="alert">
-                 Client supprimé avec succès.
+                 Fournisseur supprimé avec succès.
             </div>
         <?php } ?>
                 
@@ -70,12 +70,9 @@ include('includes/leftsidebar.php');
                             <tr>
                                 <th>#</th>
                                 <th>Nom</th>
-                                <th>Prénom</th>
-                                <th>Email</th>
                                 <th>Adresse</th>
-                                <th>Code postal</th>
+                                <th>Code postlal</th>
                                 <th>Pays</th>
-                                <th>Solde</th>
                                 <th>Modifier</th>
                                 <th>Supprimer</th>
                             </tr>
@@ -83,24 +80,21 @@ include('includes/leftsidebar.php');
                             <tbody>
 
                             <?php 
-                                $req = 'SELECT client.*,pays.countryName as nomPays FROM client,pays WHERE client.id_pays=pays.id';
+                                $req = 'SELECT fournisseur.*,pays.countryName as nomPays FROM fournisseur,pays WHERE fournisseur.id_pays=pays.id';
                                 $result = $pdo->query($req);
-                                $clients = $result->fetchAll();
+                                $fournisseurs = $result->fetchAll();
                                 
-                                foreach($clients as $client) :
+                                foreach($fournisseurs as $fournisseur) :
                             ?>
                            
                             <tr>
-                                <td> <?= $client['id'] ?> </td>
-                                <td> <?= $client['nom'] ?> </td>
-                                <td> <?= $client['prenom'] ?> </td>
-                                <td> <?= $client['email'] ?> </td>
-                                <td> <?= $client['adresse'] ?> </td>
-                                <td> <?= $client['code_postal'] ?> </td>
-                                <td> <?= $client['nomPays'] ?> </td>
-                                <td> <?= $client['solde'] ?> </td>
-                                <td> <a href="modifier_client.php?id=<?= $client['id'] ?>"><i class="fas fa-edit"></i> </a> </td>
-                                <td> <a onclick="return confirmation();" href="gestion_clients.php?suppr=<?= $client['id'] ?>"> <i class="fas fa-trash-alt"></i> </a> </td>
+                                <td> <?= $fournisseur['id'] ?> </td>
+                                <td> <?= $fournisseur['nom'] ?> </td>
+                                <td> <?= $fournisseur['adresse'] ?> </td>
+                                <td> <?= $fournisseur['code_postal'] ?> </td>
+                                <td> <?= $fournisseur['nomPays'] ?> </td>
+                                <td> <a href="modifier_fournisseur.php?id=<?= $fournisseur['id'] ?>"><i class="fas fa-edit"></i> </a> </td>
+                                <td> <a onclick="return confirmation();" href="gestion_fournisseurs.php?suppr=<?= $fournisseur['id'] ?>"> <i class="fas fa-trash-alt"></i> </a> </td>
                             </tr>                         
                             <?php endforeach; ?>
                         </tbody>

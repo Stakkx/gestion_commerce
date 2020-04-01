@@ -3,7 +3,7 @@ include('includes/database.php');
 $added = false;
 $notAdded = false;
 
-if (isset($_POST['prenom'])){
+if (isset($_POST['submit'])){
 
     $stmt = $pdo->prepare('SELECT COUNT(*) FROM client WHERE nom = ? AND prenom= ?');
     $stmt->execute(array($_POST['nom'], $_POST['prenom']));
@@ -62,6 +62,7 @@ include('includes/leftsidebar.php');
                         <div class="page-title-box">
                             <h4 class="page-title">Ajout d'un client</h4>
                     </div>
+                    <p> <a href="gestion_clients.php"> <i class="fas fa-arrow-left"></i> Retour</a> </p>
                 </div>
             </div> 
 
@@ -88,8 +89,23 @@ include('includes/leftsidebar.php');
                                 <label for="code_postal">Code postal</label>
                                 <input name="code_postal" class="form-control">
                                 
-                                <label for="pays">Pays</label>
-                                <input name="id_pays" class="form-control">
+                                <label for="country-select">Pays</label>
+
+                                <select class="form-control" name="id_pays">
+                                    
+                                    <?php 
+                                    $req2 = 'SELECT * FROM pays ORDER BY countryName ASC';
+                                    $result2 = $pdo->query($req2);
+                                    $paysListe = $result2->fetchAll();
+                                    
+                                    foreach ($paysListe as $pays) :
+                                    ?>
+                                    
+                                    <option value="<?= $pays['id'] ?>"> <?= $pays['countryName'] ?> </option>
+                                    
+                                    <?php endforeach; ?>
+
+                                </select>
                                 
                                 <label for="solde">Solde</label>
                                 <input name="solde" class="form-control">

@@ -8,6 +8,7 @@ if (isset($_GET['suppr'])){
     $deleted = true;
 }
 
+
 ?>
 
 <!DOCTYPE html>
@@ -57,7 +58,7 @@ include('includes/leftsidebar.php');
 
         <?php if($deleted) {?>
             <div id="message_suppression" class="alert alert-success" role="alert">
-                 Produit supprimée avec succès.
+                 Produit supprimé avec succès.
             </div>
         <?php } ?>
                 
@@ -72,7 +73,6 @@ include('includes/leftsidebar.php');
                                 <th>Titre</th>
                                 <th>Image</th>
                                 <th>Catégorie</th>
-                                <th>Fournisseur</th>
                                 <th>Prix d'achat</th>
                                 <th>Prix de vente</th>
                                 <th>Quantité</th>
@@ -86,9 +86,10 @@ include('includes/leftsidebar.php');
                             <tbody>
 
                             <?php 
-                                $req = 'SELECT * FROM produit';
+                                $req = 'SELECT produit.*,categorie.titre as titrecat FROM produit,categorie WHERE produit.id_categorie=categorie.id';
                                 $result = $pdo->query($req);
                                 $produits = $result->fetchAll();
+                                
                                 
                                 foreach($produits as $produit) :
                             ?>
@@ -97,8 +98,7 @@ include('includes/leftsidebar.php');
                                 <td> <?= $produit['id'] ?> </td>
                                 <td> <?= $produit['titre'] ?> </td>
                                 <td> <img src="<?= $produit['image'] ?>" alt="" width="50" height="50"> </td>
-                                <td> <?= $produit['id_categorie'] ?> </td>
-                                <td> <?= $produit['id_fournisseur'] ?> </td>
+                                <td> <?= $produit['titrecat'] ?> </td>
                                 <td> <?= $produit['prix_achat'] ?> </td>
                                 <td> <?= $produit['prix_vente'] ?> </td>
                                 <td> <?= $produit['quantite'] ?> </td>

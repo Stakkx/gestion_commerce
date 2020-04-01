@@ -86,10 +86,10 @@
                     </a>
                     <ul class="nav-second-level" aria-expanded="false">
                         <li>
-                            <a href="form-elements.html">Gestion fournisseurs</a>
+                            <a href="gestion_fournisseurs.php">Gestion fournisseurs</a>
                         </li>
                         <li>
-                            <a href="form-advanced.html">Ajout fournisseurs</a>
+                            <a href="ajouter_fournisseur.php">Ajout fournisseur</a>
                         </li>
                     </ul>
                 </li>

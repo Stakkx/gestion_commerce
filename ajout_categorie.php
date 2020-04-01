@@ -63,6 +63,7 @@ include('includes/leftsidebar.php');
                         <div class="page-title-box">
                             <h4 class="page-title">Ajout d'une catégorie</h4>
                     </div>
+                    <p> <a href="gestion_categories.php"> <i class="fas fa-arrow-left"></i> Retour</a> </p>
                 </div>
             </div> 
 
