@@ -13,7 +13,6 @@ if (isset($_POST['submit'])){
         $req = $pdo->prepare('INSERT INTO client(email, nom, prenom, adresse, code_postal, id_pays, solde) VALUES(?, ?, ?, ?, ?, ?, ?)');
         $req->execute(array($_POST['email'], $_POST['nom'], $_POST['prenom'], $_POST['adresse'], $_POST['code_postal'], $_POST['id_pays'], $_POST['solde'] ));
         $added = true;
-        header( "refresh:2 ;url=gestion_clients.php" );
     }
 }
 

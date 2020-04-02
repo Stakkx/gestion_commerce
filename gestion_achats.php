@@ -76,42 +76,7 @@ include('includes/leftsidebar.php');
                     </div>
                 <?php } ?>
     
-                <div class="row">
-                    <div class="col-md-6 mx-auto">
-                        <div class="card-box">
-                            <h4 class="header-title mb-3">Choisir un produit</h4>
-    
-                            <form method="POST" action="gestion_achats.php" name="ajout">
-                                
-                                <label for="article">Produit</label>
-
-                                <select class="form-control" name="article">
-                                    
-                                    <?php 
-                                    $req2 = 'SELECT * FROM produit ORDER BY titre ASC';
-                                    $result = $pdo->query($req2);
-                                    $produits = $result->fetchAll();
-                                    
-                                    foreach ($produits as $produit) :
-                                    ?>
-                                    
-                                    <option value="<?= $produit['id'] ?>"> <?= $produit['titre'] ?> </option>
-                                    
-                                    <?php endforeach; ?>
-
-                                </select>
-                                
-                                <button type="submit" name="submit" class="btn btn-primary">Valider</button>
-                            </form>
-                            
-                        </div> <!-- end card-box -->
-                        
-                    </div> <!-- end col -->
-                    
-                </div> <!-- end row -->
-                
-                <?php if(isset($_POST['submit'])){ ?>
-                
+                 
                 <div class="row">
                     <div class="col-12">
                         <div class="card-box">
@@ -134,7 +99,7 @@ include('includes/leftsidebar.php');
                                 <tbody>
     
                                 <?php 
-                                    $req = $pdo->query('SELECT achat.*,produit.titre AS nomProduit, fournisseur.nom AS nomFourbnisseur, produit.code_barre AS code_barre FROM achat,produit, fournisseur WHERE achat.id_produit=produit.id AND achat.id_fournisseur=fournisseur.id AND produit.id='.$_POST['article']);
+                                    $req = $pdo->query('SELECT achat.*,produit.titre AS nomProduit, fournisseur.nom AS nomFournisseur, produit.code_barre AS code_barre FROM achat,produit, fournisseur WHERE achat.id_produit=produit.id AND id_fournisseur = fournisseur.id');
                                     $achats = $req->fetchAll();
                                     foreach($achats as $achat) :
                                 ?>
@@ -143,7 +108,7 @@ include('includes/leftsidebar.php');
                                     <td> <?= $achat['id'] ?> </td>
                                     <td> <?= $achat['nomProduit'] ?> </td>
                                     <td> <?= $achat['code_barre'] ?> </td>
-                                    <td> <?= $achat['nomFourbnisseur'] ?> </td>
+                                    <td> <?= $achat['nomFournisseur'] ?> </td>
                                     <td> <?= $achat['quantite'] ?> </td>
                                     <td> <?= $achat['prix_achat'] ?> </td>
                                     <td> <?= $achat['date_achat'] ?> </td>
@@ -156,8 +121,6 @@ include('includes/leftsidebar.php');
                         </div> <!-- end card-box -->
                     </div> <!-- end col -->
                 </div> <!-- end row -->
-                
-                    <?php } ?>
             
             </div>
         </div>

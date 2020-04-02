@@ -101,7 +101,7 @@ include('includes/leftsidebar.php');
                                 <td> <?= $produit['titrecat'] ?> </td>
                                 <td> <?= $produit['prix_achat'] ?> </td>
                                 <td> <?= $produit['prix_vente'] ?> </td>
-                                <td> <?= $produit['quantite'] ?> </td>
+                                <td <?php if($produit['quantite'] > $produit['quantite_minimal']) { echo "style=\"color:green\""; } else { echo "style=\"color:red\""; } ?> > <?= $produit['quantite'] ?> </td>
                                 <td> <?= $produit['quantite_minimal'] ?> </td>
                                 <td> <?= $produit['poids'] ?> </td>
                                 <td> <?= $produit['code_barre'] ?> </td>

@@ -128,10 +128,10 @@
                     </a>
                     <ul class="nav-second-level" aria-expanded="false">
                         <li>
-                            <a href="#">Gestion Devis</a>
+                            <a href="gestion_devis.php">Gestion Devis</a>
                         </li>
                         <li>
-                            <a href="#">Ajouter Devis</a>
+                            <a href="ajouter_devis.php">Ajouter Devis</a>
                         </li>
                     </ul>
                 </li>

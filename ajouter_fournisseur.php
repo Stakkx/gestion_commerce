@@ -13,7 +13,6 @@ if (isset($_POST['submit'])){
         $req = $pdo->prepare('INSERT INTO fournisseur(nom, adresse, code_postal, id_pays) VALUES (?, ?, ?, ?)');
         $req->execute(array($_POST['nom'], $_POST['adresse'], $_POST['code_postal'], $_POST['id_pays']));
         $added = true;
-        header( "refresh:2 ;url=gestion_fournisseurs.php" );
     }
 }
 

@@ -18,7 +18,6 @@ if (isset($_POST['submit'])){
         $req = $pdo->prepare('INSERT INTO produit(titre, id_categorie, prix_achat, prix_vente, quantite, quantite_minimal, poids, code_barre, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
         $req->execute(array($_POST['titre'], $_POST['categorie'], $_POST['prix_achat'], $_POST['prix_vente'], $_POST['quantite'], $_POST['quantite_minimal'], $_POST['poids'], $_POST['code_barre'], $_POST['image'] ));
         $added = true;
-        header( "refresh:2 ;url=gestion_produits.php" );
     }
 }
 
