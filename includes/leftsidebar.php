@@ -11,7 +11,7 @@
                 <li class="menu-title">Navigation</li>
 
                 <li>
-                    <a href="index.html">
+                    <a href="index.php">
                         <i class="dripicons-meter"></i>
                         <span> Tableau de bord </span>
                     </a>
@@ -40,9 +40,19 @@
                 </li>
     
                 <li>
-                    <a href="#">
-                        <i class="fas fa-warehouse"></i> 
-                        <span> Inventaire </span>
+                    <a href="javascript: void(0);">
+                        <i class="fas fa-shopping-bag"></i>
+                        <span> Achats </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <ul class="nav-second-level" aria-expanded="false">
+                        <li>
+                            <a href="gestion_achats.php">Gestion achats</a>
+                        </li>
+                        <li>
+                            <a href="ajouter_achat.php">Ajouter achat</a>
+                        </li>
+                    </ul>
                     </a>
                 </li>
 
