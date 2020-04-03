@@ -3,10 +3,24 @@ include('includes/database.php');
 $added = false;
 
 if (isset($_POST['submit'])){
-
-    $req = $pdo->prepare('INSERT INTO devis(id_client, numero, date, status, montant, deleted) VALUES (?, ?, ?, ?, ?, ?)');
-    $req->execute(array($_POST['id_client'], $_POST['numero'], $_POST['date'], $_POST['status'], $_POST['montant'], $_POST['deleted']));
+    
+    $req78 = $pdo->query('SELECT MAX(id) AS id FROM devis');
+    $dernierDevis = $req78->fetch();
+    
+    
+    //Insert du devis
+    $req = $pdo->prepare('INSERT INTO devis(id_client, numero, date, montant, deleted) VALUES (?, ?, ?, ?, ?)');
+    $req->execute(array($_POST['id_client'], $dernierDevis['id'], $_POST['date'], $_POST['montant'], $_POST['deleted']));
     $added = true;
+
+    $j =  $pdo->lastInsertId();
+    
+    //insert du détails devis
+    $req5 = $pdo->prepare('INSERT INTO details_devis(id_produit, id_devis, quantite, prix_unitaire) VALUES (?, ?, ?, ?)');
+    $req5->execute(array($_POST['id_produit'], $j, $_POST['quantite'], $_POST['prix_unitaire']));
+    header("Location: devis.php?devis=$j");
+    
+
     
 }
 
@@ -60,12 +74,12 @@ include('includes/leftsidebar.php');
                         <div class="page-title-box">
                             <h4 class="page-title">Ajout d'un devis</h4>
                     </div>
-                    <p> <a href="gestion_devis.php"> <i class="fas fa-arrow-left"></i> Retour</a> </p>
+                    <p> <a href="gestion_devis.php"> <i class="fas fa-arrow-left"></i> Gestion devis</a> </p>
                 </div>
             </div> 
 
             <div class="row">
-                <div class="col-md-6 mx-auto">
+                <div class="col-md-8 mx-auto">
                     <div class="card-box">
                         <h4 class="header-title mb-3">Ajout d'un produit au devis</h4>
 
@@ -75,7 +89,6 @@ include('includes/leftsidebar.php');
                                 
                                 <label for="client-select">Client</label>
                                 <select class="form-control" data-toggle="select2" name="id_client">
-                                    <optgroup label="client">
                                     <?php 
                                     $req2 = 'SELECT * FROM client ORDER BY nom ASC';
                                     $result2 = $pdo->query($req2);
@@ -87,24 +100,54 @@ include('includes/leftsidebar.php');
                                     <option value="<?= $client['id'] ?>"> <?= $client['prenom']." ".$client['nom'] ?> </option>
                                     
                                     <?php endforeach; ?>
-                                    </optgroup>
                                 </select>
+                                </div>
                                 
-                                <label for="adresse">Adresse</label>
-                                <input name="adresse" class="form-control">
+                                <div class="form-row align-items-center">
+                                    <div class="form-group col-md-3">
+                                        <label for="produit-select">Produit</label>
+                                        <select class="form-control" data-toggle="select2" name="id_produit">
+                                            <?php 
+                                            $req3 = 'SELECT * FROM produit ORDER BY titre ASC';
+                                            $result3 = $pdo->query($req3);
+                                            $produitListe = $result3->fetchAll();
+                                            
+                                            foreach ($produitListe as $produit) :
+                                            ?>
+                                            
+                                            <option value="<?= $produit['id'] ?>"> <?= $produit['titre']?> </option>
+                                            
+                                            <?php endforeach; ?>
+                                        </select>
+                                    </div>
+                                    
+                                    <div class="form-group col-md-3">
+                                        <label for="quantite">Quantité</label>
+                                        <input type="number" name="quantite" class="form-control">
+                                    </div>
+                                    
+                                    <div class="form-group col-md-3">
+                                        <label for="prix_unitaire">Prix unitaire</label>
+                                        <input type="number" name="prix_unitaire" class="form-control">
+                                    </div>
+                                    
+                                    <input type="hidden" name="date" class="form-control" value="<?= date("Y-m-d H:i:s"); ?>">
+                                    
+                                    <input type="hidden" name="numero" class="form-control" value="<?= $produit['id']; ?>">
+                                    <input type="hidden" name="deleted" class="form-control" value="0">
+                                    <input type="hidden" name="montant" class="form-control" value="10">
                                 
-                                <label for="code_postal">Code Postal</label>
-                                <input name="code_postal" class="form-control">
-                            
-                                
+                                    
+                                <div class="form-group col-md-3">
+                                    <button type="submit" name="submit" class="btn btn-primary">Ajouter</button>
+                                </div>
                             </div>
-                            <button type="submit" name="submit" class="btn btn-primary">Ajouter</button>
                         </form>
 
                         <?php if ($added) { ?>
 
                         <div class="alert alert-success" role="alert">
-                            Fournisseur "<?= $_POST['nom']?>" ajouté avec succès.
+                            Devis ajouté avec succès.
                         </div>
                         
                         <?php } ?>

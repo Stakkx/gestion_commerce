@@ -19,28 +19,6 @@
 
                 <li>
                     <a href="javascript: void(0);">
-                        <i class="far fa-chart-bar"></i>
-                        <span> Statistiques </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <ul class="nav-second-level" aria-expanded="false">
-                        <li>
-                            <a href="#">Achats</a>
-                        </li>
-                        <li>
-                            <a href="#">Ventes</a>
-                        </li>
-                        <li>
-                            <a href="#">Devis</a>
-                        </li>
-                        <li>
-                            <a href="#">Logs</a>
-                        </li>
-                    </ul>
-                </li>
-    
-                <li>
-                    <a href="javascript: void(0);">
                         <i class="fas fa-shopping-bag"></i>
                         <span> Achats </span>
                         <span class="menu-arrow"></span>
@@ -182,13 +160,6 @@
                     <a href="#">
                         <i class="fas fa-user">
                         </i> <span> Gestion Utilisateurs </span>
-                    </a>
-                </li>
-
-                <li>
-                    <a href="#">
-                        <i class="fas fa-clipboard-list"></i>
-                        <span> Activités Utilisateurs </span>
                     </a>
                 </li>
 

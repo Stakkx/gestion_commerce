@@ -100,7 +100,7 @@ include('includes/leftsidebar.php');
                                     <td> <?= $devis['montant'] ?> </td>
                                     <td> <?= $devis['status'] ?> </td>
                                     <td> <?= $devis['date'] ?> </td>
-                                    <td> <a href="modifier_devis.php?id=<?= $devis['id'] ?>"><i class="fas fa-edit"></i> </a> </td>
+                                    <td> <a href="devis.php?devis=<?= $devis['id'] ?>"><i class="fas fa-edit"></i> </a> </td>
                                     <td> <a onclick="return confirmation();" href="gestion_devis.php?suppr=<?= $devis['id'] ?>"> <i class="fas fa-trash-alt"></i> </a> </td>
                                 </tr>                         
                                 <?php endforeach; ?>
